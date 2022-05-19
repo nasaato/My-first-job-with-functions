@@ -1,0 +1,101 @@
+#include <iostream>
+#include <locale.h>
+using namespace std;
+int** Create(int n) // создание 
+{
+    int** a = new int* [n];
+    for (int i = 0; i < n; i++) {
+        a[i] = new int[n];
+    }
+    return a;
+}
+void Full(int** a, int n, int A, int B) // заполнение в ручную
+{
+    printf("Enter the array elements: \n");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+        {
+            scanf_s("%d", &a[i][j]);
+        }
+}
+void Random(int** a, int n, int A, int B) // заполнение 
+{
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+        {
+            a[i][j] = A + rand() % (B - A) + 1;
+        }
+}
+void Print(int** a, int n) // вывод на печать 
+{
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            printf("%d ", a[i][j]);
+        printf("\n");
+    }
+}
+int main()
+{
+    setlocale(LC_ALL,"ru");
+    int n, t, summ = 0, A = -5, B = 10, **a;
+    int f, p;
+    printf("Привет!");
+    printf("\nEnter the matrix: ");
+    scanf_s("%d", &n);
+    printf("\n1)Хотите ли вы вывести массив на консоль?\n0.Нет\t1. ДА\n");
+    scanf_s("%d", &p);  
+    switch (p)
+    {
+     case 0: break; break;
+     case 1: break; break;
+     default: printf("Ошибка, попробуйте еще раз!\n"); scanf_s("%d", &p); 
+    }
+    printf("\n2)Заполнение массива:\n0. Заполнить в ручную\t1. заполнить случ. числами\n");
+    scanf_s("%d", &f);
+    switch (f)
+    {
+     case 0: break; break;
+     case 1: break; break;
+     default: printf("Ошибка, попробуйте еще раз!\n"); scanf_s("%d", &f);
+    }
+    a = Create(n);
+    if (f == 1) 
+    {
+        Random(a, n, A, B);
+    }
+    else
+    {
+        Full(a, n, A, B);
+    }
+    
+    if (p == 1) 
+    {
+        Print(a, n);
+    }
+    printf("\n");
+    printf("An array element when [i = j]: ");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (i == j) {
+                printf("%d ", a[i][j]);
+            }
+        }
+    }
+    int k = 0, r = 0;
+    printf("\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (a[i][j] < 0 && k == r) {
+                for (t = 0; t < n; t++) {
+                    a[i][t] += summ;
+                    summ = a[i][t];
+                }
+                printf("\nSuum the array[%d]: %d", i, summ);
+                k++;
+            }
+            summ = 0;
+        }
+        ++r;
+    }
+    return 0;
+}
